@@ -7,18 +7,23 @@
 
 <div style="margin-top: 10px; margin-bottom:10px">
     <div class="container">
-        <div class="media">
-            <img src=" {{asset('/storage/image/default.png')}} " class="align-self-center mr-3" alt="Responsive image">
-            <div class="media-body">
-                <h5 class="mt-0">Center-aligned media</h5>
-                <i class="fa fa-eye fa-1x" style="color:rgb(173, 173, 173)"> Lihat</i>
-                <i class="fa fa-download fa-1x" style="color:rgb(173, 173, 173); margin-left:20px;"> download</i>
-        
-        
-              <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-              <p class="mb-0">Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-            </div>
+
+      <div class="row">
+        @foreach($data as $d)
+        <div class="col-lg-9">
+          <div class="media mt-4 mb-5">
+              <img src="{{asset('/storage/image/'. $d->book_image)}}" height="200" width="200" class="align-self-center mr-3" alt="Responsive image">
+              <div class="media-body">
+                <h5 class="mt-0"> {{$d->book_name}} </h5>
+                  <i class="fa fa-eye fa-1x" style="color:rgb(173, 173, 173)"> Lihat</i>
+                  <i class="fa fa-download fa-1x" style="color:rgb(173, 173, 173); margin-left:20px;"> download</i>
+                <p style="margin-top: 10px;">{{ substr($d->book_description,0,300)}}</p>
+              
+              </div>
           </div>
+        </div>
+        @endforeach
+      </div>
        
     </div>
 

@@ -16,7 +16,6 @@ class AdminController extends Controller
      */
     public function bookall(Request $request)
     {
-
         if ($request->input('page')) {
             $page = $request->input('page');
         } else {

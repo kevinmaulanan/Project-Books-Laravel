@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('books.home');
-});
+Route::get('/', 'UserController@home');
 
 
 Route::get('/admin/books', 'AdminController@bookall');
