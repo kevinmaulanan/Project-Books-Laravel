@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AdminModels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class AdminController extends Controller
 {
@@ -13,15 +14,29 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function bookall()
+    public function bookall(Request $request)
     {
-        $data = DB::table('books')->get();
-        return view('admin.books.books', ['data' => $data]);
+
+        if ($request->input('page')) {
+            $page = $request->input('page');
+        } else {
+            $page = 1;
+        }
+
+        $next = $page + 1;
+        $pref = $page - 1;
+
+        $data = DB::table('books')->limit(5)->offset(($page - 1) * 5)->get();
+
+        $total = ceil(DB::table('books')->count() / 5);
+        $number = range(1, $total);
+
+        return view('admin.books.books', ['data' => $data, 'active' => $page, 'total' => $number, 'next' => $next, 'pref' => $pref]);
     }
 
     public function bookcreateview()
     {
-        return view('admin.books.createbook');
+        return view('admin/books/createbook');
     }
 
     public function bookcreate(Request $request)
@@ -30,7 +45,7 @@ class AdminController extends Controller
             'book' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'filepdf' => 'required|mimes:pdf,docx'
+            'filepdf' => 'required|mimes:pdf,docx,rar'
         ]);
         $bookpdf = $request->file('filepdf');
         $image = $request->file('image');
@@ -61,7 +76,7 @@ class AdminController extends Controller
         $bookpdf->storeAs('public/book', $fileNamePdf);
         $image->storeAs('public/image', $fileNameImage);
 
-        return redirect('admin/books/books')->with('message', 'Data Buku Sudah Ditambahkan');
+        return redirect('admin/books')->with('message', 'Data Buku Sudah Ditambahkan');
     }
 
     /**
@@ -69,9 +84,13 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function download()
+    public function download(Request $request)
     {
-        //
+        $book = public_path('storage/book/' . $request->input('books'));
+        $headers = [
+            'Content-Type' => 'application/pdf',
+        ];
+        return Response::download($book, $request->input('books'), $headers);
     }
 
     /**
