@@ -21,6 +21,9 @@ class Books extends Migration
             $table->text('book_description');
             $table->integer('is_deleted')->default(0);
 
+            $table->unsignedBigInteger('id_genre');
+            $table->foreign('id_genre')->references('id')->on('genres')->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

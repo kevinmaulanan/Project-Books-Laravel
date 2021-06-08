@@ -23,8 +23,8 @@ class AdminController extends Controller
         $next = $page + 1;
         $pref = $page - 1;
 
-        $data = DB::table('books')->limit(5)->offset(($page - 1) * 5)->get();
-
+        $data = DB::table('books')->join('genres', 'books.id_genre', '=', 'genres.id')->limit(5)->offset(($page - 1) * 5)->get();
+  
         $views = DB::table('book_views')->get();
         $download = DB::table('book_download')->get();
 
@@ -45,11 +45,13 @@ class AdminController extends Controller
 
     public function bookcreateview()
     {
-        return view('admin/books/createbook');
+        $genres = DB::table('genres')->get();
+        return view('admin/books/createbook', ['genres' => $genres]);
     }
 
     public function bookcreate(Request $request)
     {
+        
         $request->validate([
             'book' => 'required',
             'description' => 'required',
@@ -67,6 +69,7 @@ class AdminController extends Controller
             'book_image' => $fileNameImage,
             'book_link' => $fileNamePdf,
             'book_description' => $request->description,
+            'id_genre' => $request->genre,
             'is_deleted' => 0,
         ]);
 

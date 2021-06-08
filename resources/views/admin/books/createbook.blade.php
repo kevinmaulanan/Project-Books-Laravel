@@ -25,6 +25,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="inputState">Genre</label>
+                    <select id="inputState" name="genre" class="form-control">
+                      @foreach($genres as $g)
+                        <option value={{ $g->id }}> {{ $g->genre }} </option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                <div class="form-group">
                     <label for="image">Input Image Books</label>
                     <input type="file" name="image" class="form-control-file @error('image') is-invalid-file @enderror"  >
                     @error('image')
