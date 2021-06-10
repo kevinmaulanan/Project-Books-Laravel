@@ -15,18 +15,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'UserController@home');
 
+// *** Auth *** ///
+Route::middleware(['NonAuthenticated'])->group(function () {
+    Route::get('/auth/login', 'AuthsController@login');
+    Route::get('/auth/register', 'AuthsController@register');
+    Route::post('/auth/login', 'AuthsController@loginpost');
+    Route::post('/auth/register', 'AuthsController@registerpost');
+    Route::get('/verify', 'AuthsController@verify');
+});
 
-Route::get('/admin/books', 'AdminController@bookall');
-Route::get('/admin/books/download', 'AdminController@download');
+Route::middleware(['Authenticated'])->group(function () {
+    Route::get('/admin/books', 'AdminController@bookall');
+    Route::get('/admin/books/download', 'AdminController@download');
 
-Route::get('/admin/books/create', 'AdminController@bookcreateview');
-Route::post('/admin/books/create', 'AdminController@bookcreate');
+    Route::get('/admin/books/create', 'AdminController@bookcreateview');
+    Route::post('/admin/books/create', 'AdminController@bookcreate');
 
 
-Route::get('/admin/genre', 'AdminController@genreview');
-Route::get('/admin/genres/create', 'AdminController@genrecreateview');
-Route::post('/admin/genres/create', 'AdminController@genrecreate');
+    Route::get('/admin/genre', 'AdminController@genreview');
+    Route::get('/admin/genres/create', 'AdminController@genrecreateview');
+    Route::post('/admin/genres/create', 'AdminController@genrecreate');
 
-Route::get('/admin/books/{books}', 'AdminController@bookdetailview');
-Route::patch('/admin/books/{books}', 'AdminController@bookupdate');
-Route::delete('/admin/books/{books}', 'AdminController@bookdelete');
+    Route::get('/admin/books/{books}', 'AdminController@bookdetailview');
+    Route::patch('/admin/books/{books}', 'AdminController@bookupdate');
+    Route::delete('/admin/books/{books}', 'AdminController@bookdelete');
+});
+
+
