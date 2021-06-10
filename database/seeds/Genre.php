@@ -16,9 +16,9 @@ class Genre extends Seeder
             'Art', 'Biography', 'Business' . 'Chick Lit', 'Childrens', 'Classics', 'Comedy', 'Comics', 'Contemporary', 'Cookbooks', 'Crime', 'Ebooks', 'Fantasy', 'Fiction', 'Graphic Novels', 'Historical Fiction', 'History', 'Horror', 'Manga', 'Memoir', 'Music', 'Mystery', 'Nonfiction', 'Paranormal', 'Philosophy', 'Poetry', 'Psychology', 'Religion', 'Romance', 'Science', 'Self Help', 'Suspense', 'Spirituality', 'Sports', 'Thriller', 'Travel'
         );
 
-        for ($i = 1; $i <= count($genre); $i++) {
+        for ($i = 0; $i < count($genre); $i++) {
             DB::table('genres')->insert([
-                'genre' => $genre[$i - 1]
+                'genre' => $genre[$i]
             ]);
         }
     }
