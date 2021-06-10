@@ -19,10 +19,17 @@ class UserController extends Controller
         $next = $page + 1;
         $pref = $page - 1;
 
-        $data = DB::table('books')->limit(5)->offset(($page - 1) * 5)->get();
+        $data = DB::table('books')
+        ->join('book_views', 'book_views.id_book', '=', 'books.id')
+        ->join('book_download', 'book_download.id_book', '=', 'books.id')
+        ->limit(5)->offset(($page - 1) * 5)->get();
 
-        $views = DB::table('book_views')->get();
-        $download = DB::table('book_download')->get();
+
+        $book_popular = DB::table('books')
+        ->join('genres', 'books.id_genre', '=', 'genres.id')
+        ->join('book_views', 'book_views.id_book', '=', 'books.id')
+        ->orderBy('book_views.view', 'desc')
+        ->limit(5)->get();
 
         $total = ceil(DB::table('books')->count() / 5);
         $number = range(1, $total);
@@ -30,8 +37,7 @@ class UserController extends Controller
 
         return view('/books/home', [
             'data' => $data,
-            'view' => $views,
-            'download' => $download,
+            'book_popular' => $book_popular,
             'active' => $page,
             'total' => $number,
             'next' => $next,

@@ -19,18 +19,20 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+                <div class="navbar-nav navbar-list">
                     <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link" href="#">Novel</a>
                     <a class="nav-item nav-link" href="#">Genre</a>
-                    <form class="form-inline my-2 my-lg-0">
-                      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-                  </form>
-              </div>
                 </div>
+                @if(session('login'))
+                <form class="form-inline">
+                  <img src=" {{asset('/storage/default.png' )}}" height="50" width="50" alt="Image" style="border-radius: 50px">
+                  <p class="nav-item nav-link" style="color: aliceblue; padding: 0; margin: 0px 0 0 10px"> {{session('email')}} </p>
+                </form>
+                @endif
             </div>
+        </div>
            
     </nav>
 
@@ -42,4 +44,11 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </body>
+
+  <style>
+
+    .navbar-list a {
+      margin-left: 20px
+    }
+  </style>
 </html>
