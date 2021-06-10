@@ -23,8 +23,13 @@ class AdminController extends Controller
         $next = $page + 1;
         $pref = $page - 1;
 
-        $data = DB::table('books')->join('genres', 'books.id_genre', '=', 'genres.id')->limit(5)->offset(($page - 1) * 5)->get();
-  
+        $data = DB::table('books')
+        ->join('genres', 'books.id_genre', '=', 'genres.id')
+        ->select('books.*', 'genres.genre')
+        ->limit(5)
+        ->offset(($page - 1) * 5)
+        ->get();
+        
         $views = DB::table('book_views')->get();
         $download = DB::table('book_download')->get();
 
@@ -96,13 +101,22 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function download(Request $request)
+    public function download(Request $request, $id)
     {
-        $book = public_path('storage/book/' . $request->input('books'));
-        $headers = [
-            'Content-Type' => 'application/pdf',
-        ];
-        return Response::download($book, $request->input('books'), $headers);
+        $book = DB::table('books')->where("id", $id)->first();
+        if ($book) {
+            DB::table('book_download')->where('id_book', $book->id)->increment('download');
+            if (!$book->link_url_type) {
+                $link = public_path('storage/book/' . $book->book_link);
+                $headers = [
+                    'Content-Type' => 'application/pdf',
+                ];
+                return Response::download($link, $book->book_link, $headers);
+            } else {
+                return redirect($book->book_link);
+            }
+        }
+        return redirect('book/detail/'. $id);
     }
 
 

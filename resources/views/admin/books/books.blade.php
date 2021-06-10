@@ -1,4 +1,4 @@
-@extends('main.mainadmin')
+@extends('Main/main')
 
 @section('title', 'Upload Books')
 
@@ -28,12 +28,12 @@
 
                 @foreach($data as $d)
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row"> {{ $loop->index + 1}} </th>
                     <td> {{$d->book_name}} </td>
-                    <td> <img src=" {{asset('/storage/image/'.$d->book_image)}}" height="100" width="100" alt="Image"> </td>
+                    <td> <img src="{{ $d->link_url_type ? $d->book_image : asset('/storage/image/'. $d->book_image) }} " height="100" width="100" alt="Image"> </td>
                     <td> {{$d->genre}}  </td>
                     <td> <p align="justify"> {{$d->book_description}}</p> </td>
-                    <td><a href="{{url('admin/books/download?books='.$d->book_link)}}">download </a></td>
+                    <td><a href="{{url('admin/books/download/'. $d->id)}}">download </a></td>
                 </tr>
                 @endforeach
             

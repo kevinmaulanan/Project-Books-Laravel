@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'UserController@home');
+Route::get('/book/{book}', 'UserController@bookdetail');
 
 // *** Auth *** ///
 Route::middleware(['NonAuthenticated'])->group(function () {
@@ -26,7 +27,7 @@ Route::middleware(['NonAuthenticated'])->group(function () {
 
 Route::middleware(['Authenticated'])->group(function () {
     Route::get('/admin/books', 'AdminController@bookall');
-    Route::get('/admin/books/download', 'AdminController@download');
+    Route::get('/admin/books/download/{id}', 'AdminController@download')->withoutMiddleware('Authenticated');
 
     Route::get('/admin/books/create', 'AdminController@bookcreateview');
     Route::post('/admin/books/create', 'AdminController@bookcreate');

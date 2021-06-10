@@ -15,21 +15,21 @@
               @foreach($data as $da)
               <div class="col-lg-11">
                 <div class="media mt-1 mb-1">
-                    <img src="{{asset('/storage/image/'. $da->book_image)}}" height="200" width="200" class="align-self-center mr-3" alt="Responsive image">
+                    <img src="{{ $da->link_url_type ? $da->book_image : asset('/storage/image/'. $da->book_image) }} " height="200" width="200" class="align-self-center mr-3" alt="Responsive image">
                     <div class="media-body">
                       <h5 class="mt-0"> {{$da->book_name}} </h5>
       
-                          <i class="fa fa-eye fa-1x" style="color:rgb(173, 173, 173)"> 
-                            {{ $da->view }}
-                            dilihat
-                          </i>
-                        
-                          <i class="fa fa-download fa-1x" style="color:rgb(173, 173, 173); margin-left:20px;"> 
-                            {{ $da->download }}
-                            didownload
-                          </i>
+                        <i class="fa fa-eye fa-1x" style="color:rgb(173, 173, 173)"> 
+                          {{ $da->view }}
+                          dilihat
+                        </i>
+                      
+                        <i class="fa fa-download fa-1x" style="color:rgb(173, 173, 173); margin-left:20px;"> 
+                          {{ $da->download }}
+                          didownload
+                        </i>
                         <p class="mt-1 text-justify">{{substr($da->book_description,0,300)}} 
-                          <a href="#">Lihat selanjutnya</a>
+                          <a href="{{url('/book/' . $da->id_book )}}">Lihat selanjutnya</a>
                         </p>
                     </div>
                 </div>
@@ -38,25 +38,26 @@
               @endforeach
             </div>
           </div>
-          <div class="col-lg-3">
+          <div class="col-lg-3 ">
             <p class="font-weight-bold" style="font-size: 16px">Most Popular View</p>
-            @foreach($book_popular as $bp)
+            @foreach($book_popular_view as $bpv)
             <div class="mb-2" style="background-color: {{ $loop->index % 2 == 0 ? '#f4f4f4' : null }}; padding: 1px 0 5px 0">
-              <img src="{{asset('/storage/image/'. $bp->book_image)}}" height="50" width="50" class="mr-1 ml-1 d-inline-block">
+              <img src="{{ $bpv->link_url_type ? $bpv->book_image : asset('/storage/image/'. $bpv->book_image) }} " height="50" width="50" class="mr-1 ml-1 d-inline-block">
               <div class=" d-inline-block">
-                <p class="font-weight-bold p-0 m-0" style="color: #198ef3;"> {{ $bp->book_name }} </p>
-                <p class="p-0 m-0" style="color: #198ef3; font-size: 12px"> {{ $bp->genre }} </p>
+                <a href="{{url('/book/' . $bpv->id_book )}}" class="font-weight-bold p-0 m-0" style="font-size: 12px; color: #198ef3;"> {{ $bpv->book_name }} </a>
+                <p class="p-0 m-0" style="color: #198ef3; font-size: 12px"> {{ $bpv->genre }} </p>
               </div>
             </div>
             @endforeach
             
+            <br>
             <p class="font-weight-bold mt-2" style="font-size: 16px; ">Most Popular Download</p>
-            @foreach($book_popular as $bp)
+            @foreach($book_popular_download as $bpd)
             <div class="mb-2" style="background-color: {{ $loop->index % 2 == 0 ? '#f4f4f4' : null }}; padding: 1px 0 5px 0">
-              <img src="{{asset('/storage/image/'. $bp->book_image)}}" height="50" width="50" class="mr-1 ml-1 d-inline-block">
+              <img src="{{ $bpd->link_url_type ? $bpd->book_image : asset('/storage/image/'. $bpd->book_image) }} " height="50" width="50" class="mr-1 ml-1 d-inline-block">
               <div class=" d-inline-block">
-                <p class="font-weight-bold p-0 m-0" style="color: #198ef3;"> {{ $bp->book_name }} </p>
-                <p class="p-0 m-0" style="color: #198ef3; font-size: 12px"> {{ $bp->genre }} </p>
+                <a href="{{url('/book/' . $bpd->id_book )}}" class="font-weight-bold p-0 m-0" style="font-size: 12px; color: #198ef3;"> {{ $bpd->book_name }}</a>
+                <p class="p-0 m-0" style="color: #198ef3; font-size: 12px"> {{ $bpd->genre }} </p>
               </div>
             </div>
             @endforeach
@@ -85,13 +86,7 @@
           </nav>
         </div>
       </div>
-      
-
-      
-       
     </div>
-
-    
 </div>
 
 @endsection

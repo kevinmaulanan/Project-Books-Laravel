@@ -1,4 +1,4 @@
-@extends('main/mainadmin')
+@extends('Main/main')
 @section('title', 'Tambah Books')
     
 @section('body')

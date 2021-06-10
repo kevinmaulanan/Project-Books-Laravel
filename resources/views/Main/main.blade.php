@@ -21,15 +21,22 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
                 <div class="navbar-nav navbar-list">
-                    <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="#">Novel</a>
-                    <a class="nav-item nav-link" href="#">Genre</a>
+                    <a class="nav-item nav-link active" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
+                    @if(session('login'))
+                    <a class="nav-item nav-link" href="{{url('/admin/books')}}">Admin</a>
+                    @endif
                 </div>
                 @if(session('login'))
                 <form class="form-inline">
                   <img src=" {{asset('/storage/default.png' )}}" height="50" width="50" alt="Image" style="border-radius: 50px">
                   <p class="nav-item nav-link" style="color: aliceblue; padding: 0; margin: 0px 0 0 10px"> {{session('email')}} </p>
                 </form>
+                @else
+                <form class="form-inline">
+
+                  <a class="btn btn-primary" href="{{ url('/auth/login') }}" style="color: aliceblue;"> Login </a>
+                </form>
+           
                 @endif
             </div>
         </div>
